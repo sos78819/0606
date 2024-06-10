@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { useState,useEffect } from "react";
+import { useState} from "react";
 import { AddItemForm } from "./add-item-form";
 import { ItemContent } from "./item-content";
 import { MoveItemEnd } from "./move-to-item-end";

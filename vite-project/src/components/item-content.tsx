@@ -12,9 +12,11 @@ import { TodoProps } from "@/type";
 
 
 const ItemContent = (props: TodoProps) => {
+
+
   const viewportRef = useRef<HTMLDivElement>(null);
   console.log(viewportRef.current?.scrollTop)
-  function handleItemCheck(e: boolean | string, idx: number) {
+  function handleItemCheck(e: boolean , idx: number) {
     const newTodos = [...props.TodoItem];
     newTodos[idx].finish = e
     props.handleItemChange(newTodos)
@@ -37,7 +39,7 @@ const ItemContent = (props: TodoProps) => {
         {props.TodoItem.map((item, idx) => {
           const lineClass = item.finish ? 'line-through' : '';
           return <div key={idx} className="flex items-center rounded border-l-8 border-l-indigo-500 mt-2 p-5 relative">
-            <Checkbox onCheckedChange={(e) => handleItemCheck(e, idx)} checked={item.finish} className="mr-2" id="terms" />
+            <Checkbox onCheckedChange={(e:boolean) => handleItemCheck(e, idx)} checked={item.finish} className="mr-2" id="terms" />
             <Label
               className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${lineClass}`}
             >
