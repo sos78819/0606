@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { useState} from "react";
 import { AddItemForm } from "./add-item-form";
 import { ItemContent } from "./item-content";
-import { MoveItemEnd } from "./move-to-item-end";
 import { TodoProgress } from "./todo-progress";
 import { singleItem } from "@/type";
 
@@ -39,9 +38,7 @@ const TodoList = () => {
         </CardHeader>
         <Separator />
         <TodoProgress TodoItem={TodoItems}/>
-        <ItemContent TodoItem={TodoItems} handleItemChange={handleItemChange} />
-        <Separator />
-        <MoveItemEnd />
+        <ItemContent TodoItem={TodoItems} handleItemChange={handleItemChange} />       
         <AddItemForm TodoItem={TodoItems} handleItemChange={handleItemChange} />
       </Card>
     </div>
