@@ -10,8 +10,7 @@ const TodoProgress = ({TodoItem}:TodoItems) => {
   const percentage = Math.floor((finishTotal.length / itemTotal) * 100) 
   const [progress, setProgress] = useState(percentage)
 
-  useEffect(() => {
-   
+  useEffect(() => {   
     const timer = setTimeout(() => setProgress(percentage), 600)
     return () => clearTimeout(timer)
   }, [percentage])
@@ -19,8 +18,9 @@ const TodoProgress = ({TodoItem}:TodoItems) => {
 
 
   return <div className="flex p-3 relative">
+  <div className="flex-none w-14"><p className="align-text-top">{progress}%</p></div>
   <Progress value={progress} className={cn('w-[80%] bg-indigo-200')} />
-  <span className="w-[10%] absolute bottom-2 right-4">{progress}%</span>
   </div>
 }
 export { TodoProgress }
+

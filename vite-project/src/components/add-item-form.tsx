@@ -9,8 +9,8 @@ import {
   FormLabel
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { TodoProps, singleItem } from "@/type";
 import { useForm } from "react-hook-form";
-import { singleItem,TodoProps } from "@/type";
 
 
 
@@ -44,13 +44,13 @@ const AddItemForm = (props:TodoProps) => {
                 <FormItem>
                  <FormLabel>Add to list</FormLabel>
                   <FormControl>
-                    <Input placeholder="add list to do"  {...field} />
+                    <Input className="ring-indigo-100" placeholder="add list to do"  {...field} />
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
-          <div className="relative w-[20%]"><Button className="absolute bottom-0" type="submit">+</Button></div>
+          <div className="relative w-[20%]"><Button className="absolute bottom-0 bg-indigo-500" type="submit">+</Button></div>
         </div>
       </form>
     </Form>
