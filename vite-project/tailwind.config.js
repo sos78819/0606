@@ -17,6 +17,14 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xxs:{'max': '325px'},
+        xs:{'max': '375px'},
+        sm: {'max': '480'},
+        md: {'max': '768px'},
+        lg: {'max': '976px'},
+        xl: {'max': '1440px'},
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
