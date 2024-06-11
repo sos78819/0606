@@ -1,8 +1,8 @@
 
 import { Progress } from "@/components/ui/progress"
-import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { TodoItems } from "@/type"
+import { useEffect, useState } from "react"
 const TodoProgress = ({TodoItem}:TodoItems) => {
  
   const itemTotal = TodoItem.length
@@ -19,7 +19,7 @@ const TodoProgress = ({TodoItem}:TodoItems) => {
 
 
   return <div className="flex p-3 relative">
-  <Progress value={progress} className={cn('w-[80%] bg-[#d4d4d4]')} />
+  <Progress value={progress} className={cn('w-[80%] bg-indigo-200')} />
   <span className="w-[10%] absolute bottom-2 right-4">{progress}%</span>
   </div>
 }
