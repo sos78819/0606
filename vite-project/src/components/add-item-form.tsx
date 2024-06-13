@@ -9,31 +9,26 @@ import {
   FormLabel
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { TodoProps, singleItem } from "@/type";
+import { singleItem } from "@/type";
 import { useForm } from "react-hook-form";
 
 
 
-const AddItemForm = (props:TodoProps) => {
-
+const AddItemForm = ({addItem}: {addItem: (newItem:singleItem[]) => void}) => {
   const form = useForm({
     defaultValues: {
       title: "",
       finish: false
     }
   }
-
   )
 
   const onSubmit = (values: singleItem) => {
-    const preItem = [...props.TodoItem]
-    const newItem = preItem.concat(values);
-    props.handleItemChange(newItem)
-
+    addItem([values])
   }
 
   return (
-    <Form  {...form}>      
+    <Form  {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="flex w-full p-2">
           <div className="w-[60%] mr-1">
@@ -42,7 +37,7 @@ const AddItemForm = (props:TodoProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                 <FormLabel>Add to list</FormLabel>
+                  <FormLabel>Add to list</FormLabel>
                   <FormControl>
                     <Input className="ring-indigo-100" placeholder="add list to do"  {...field} />
                   </FormControl>

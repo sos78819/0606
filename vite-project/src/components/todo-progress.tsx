@@ -1,26 +1,16 @@
 
-import { Progress } from "@/components/ui/progress"
-import { cn } from "@/lib/utils"
-import { TodoItems } from "@/type"
-import { useEffect, useState } from "react"
-const TodoProgress = ({TodoItem}:TodoItems) => {
- 
-  const itemTotal = TodoItem.length
-  const finishTotal = TodoItem.filter((item) => item.finish === true);
-  const percentage = Math.floor((finishTotal.length / itemTotal) * 100) 
-  const [progress, setProgress] = useState(percentage)
+import { Progress } from "@/components/ui/progress";
+import { singleItem } from "@/type";
+const TodoProgress = ({todoItems}:{todoItems:singleItem[]}) => {
 
-  useEffect(() => {   
-    const timer = setTimeout(() => setProgress(percentage), 600)
-    return () => clearTimeout(timer)
-  }, [percentage])
-
-
-
-  return <div className="flex p-3 relative">
-  <div className="flex-none w-14"><p className="align-text-top">{progress}%</p></div>
-  <Progress value={progress} className={cn('w-[80%] bg-indigo-200')} />
+  const itemTotal = todoItems.length
+  const finishTotal = todoItems.filter((item) => item.finish === true);
+  const percentage = itemTotal === 0 ? 0 : Math.floor((finishTotal.length / itemTotal) * 100)
+  
+  return <div className="flex justify-center items-center py-4">
+  <div className="flex-none w-14"><p className="align-text-top">{percentage}%</p></div>
+  <Progress value={percentage} className='w-[80%] bg-indigo-200' />
   </div>
 }
-export { TodoProgress }
+export { TodoProgress };
 

@@ -9,8 +9,7 @@ export interface TodoItems {
    
 }
 
-export interface TodoProps {
-    TodoItem: singleItem[],
-    handleItemChange: (newItem:singleItem[]) => void
+export interface TodoProps {  
+    handleAddItem: (newItem:singleItem[]) => void
 }
 

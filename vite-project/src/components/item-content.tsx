@@ -1,6 +1,5 @@
-import { TodoProps } from "@/type";
+import { singleItem } from '@/type';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { useState } from "react";
 import { MoveItemEnd } from "./move-to-item-end";
 import { Button } from "./ui/button";
 import { CardContent } from "./ui/card";
@@ -8,63 +7,30 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 
-
-const ItemContent = (props: TodoProps) => {
-
-  const [switchTitle, setSwitchTitle] = useState("Move done thing to End?")
-
-
-  function handleItemCheck(e: boolean, idx: number) {
-    const newTodos = [...props.TodoItem];
-    newTodos[idx].finish = e
-    props.handleItemChange(newTodos)
-  }
-
-  function removeItem(idx: number) {
-    const newTodos = [...props.TodoItem];
-    newTodos.splice(idx, 1);
-    props.handleItemChange(newTodos)
-  }
-
-  function switchHandler(e: boolean) {
-    const newTodos = [...props.TodoItem];
-    if (e) {
-      const switchToStart = "Move done thing to Start?"
-      newTodos.sort((a, b) => {
-        if (a.finish === b.finish) return 0;
-        if (a.finish) return 1;
-        return -1;
-      });
-      setSwitchTitle(switchToStart)
-
-    } else {
-      const switchToEnd = "Move done thing to End?"
-      newTodos.sort((a, b) => {
-        if (a.finish === b.finish) return 0;
-        if (!a.finish) return 1;
-        return -1;
-      });
-      setSwitchTitle(switchToEnd)
-    }
-    props.handleItemChange(newTodos)
-  }
+export interface TodoProps {
+  todoItems: singleItem[],
+  handleCheck: (e: boolean, idx: number) => void,
+  removeItem:(idx: number)=>void,
+  handleSwitch: (e: boolean) => void,
+}
 
 
-
+const ItemContent = (props:TodoProps) => {
   return <><ScrollArea.Root>
     <ScrollArea.Viewport className="h-72 bg-white" >
       <CardContent>
-        {props.TodoItem.map((item, idx) => {
+        {props.todoItems.map((item, idx) => {
           const lineClass = item.finish ? 'line-through' : '';
-          return <div key={idx} className="flex items-center rounded bg-slate-50 border-l-8 border-l-indigo-500 mt-2 p-5 relative">
-            <Checkbox onCheckedChange={(e: boolean) => handleItemCheck(e, idx)} checked={item.finish} className="mr-2" id="terms" />
-            <Label
-              className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${lineClass}`}
-            >
+          return <Label
+            className={`text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${lineClass}`}
+            key={`terms+${idx}`}
+            htmlFor={`terms+${idx}`}
+          ><div key={idx} className="flex items-center rounded bg-slate-50 border-l-8 border-l-indigo-500 mt-2 p-5 relative">
+              <Checkbox onCheckedChange={(e: boolean) => props.handleCheck(e, idx)} checked={item.finish} className="mr-2" id={`terms+${idx}`} />
               {item.title}
-            </Label>
-            <Button onClick={() => removeItem(idx)} className='bg-transparent rounded-full text-slate-400 absolute right-0'>x</Button>
-          </div>
+              <Button onClick={() => props.removeItem(idx)} className='bg-transparent w-fit rounded-full text-slate-400 absolute right-0'>x</Button>
+            </div>
+          </Label>
         })
         }
       </CardContent>
@@ -75,7 +41,7 @@ const ItemContent = (props: TodoProps) => {
     <ScrollArea.Corner />
   </ScrollArea.Root>
     <Separator className="bg-slate-600 mt-2" />
-    <MoveItemEnd title={switchTitle} switchHandler={switchHandler} />
+    <MoveItemEnd handleSwitch={props.handleSwitch}/>
   </>
 }
 
