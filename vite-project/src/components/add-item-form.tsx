@@ -14,6 +14,7 @@ import { singleItem } from "@/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { PlusIcon } from "./ui/plus";
 
 const FormSchema = z.object({
   title: z.string().min(1, {
@@ -35,7 +36,6 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
   }
 
 
-
   return (
     <Form  {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -49,8 +49,8 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
                   <FormLabel>Add to list</FormLabel>
                   <FormControl>
                     <div className="flex w-full">
-                      <Input className="ring-indigo-100" placeholder="add list to do"  {...field} />
-                      <Button className=" bg-indigo-500" type="submit">+</Button>
+                      <Input className="ring-indigo-100 mr-2" placeholder="add list to do"  {...field} />
+                      <Button className="bg-indigo-500" type="submit"><PlusIcon/></Button>
                     </div>
                   </FormControl>
                   <FormMessage />
