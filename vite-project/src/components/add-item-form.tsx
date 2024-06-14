@@ -6,16 +6,23 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { singleItem } from "@/type";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-
-
-const AddItemForm = ({addItem}: {addItem: (newItem:singleItem[]) => void}) => {
+const FormSchema = z.object({
+  title: z.string().min(1, {
+    message: "Todo Title must be at least 1 characters.",
+  }),
+})
+const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) => {
   const form = useForm({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
       title: "",
       finish: false
@@ -27,11 +34,13 @@ const AddItemForm = ({addItem}: {addItem: (newItem:singleItem[]) => void}) => {
     addItem([values])
   }
 
+
+
   return (
     <Form  {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="flex w-full p-2">
-          <div className="w-[60%] mr-1">
+        <div className="flex w-full p-2 ">
+          <div className="mr-1 w-[80%]">
             <FormField
               control={form.control}
               name="title"
@@ -39,13 +48,16 @@ const AddItemForm = ({addItem}: {addItem: (newItem:singleItem[]) => void}) => {
                 <FormItem>
                   <FormLabel>Add to list</FormLabel>
                   <FormControl>
-                    <Input className="ring-indigo-100" placeholder="add list to do"  {...field} />
+                    <div className="flex w-full">
+                      <Input className="ring-indigo-100" placeholder="add list to do"  {...field} />
+                      <Button className=" bg-indigo-500" type="submit">+</Button>
+                    </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <div className="relative w-[20%]"><Button className="absolute bottom-0 bg-indigo-500" type="submit">+</Button></div>
         </div>
       </form>
     </Form>
