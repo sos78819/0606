@@ -1,5 +1,6 @@
 import { singleItem } from '@/type';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import { useEffect, useRef } from 'react';
 import { MoveItemEnd } from "./move-to-item-end";
 import { Button } from "./ui/button";
 import { CardContent } from "./ui/card";
@@ -7,17 +8,36 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 
+
 export interface TodoProps {
   todoItems: singleItem[],
   handleCheck: (e: boolean, idx: number) => void,
-  removeItem:(idx: number)=>void,
+  removeItem: (idx: number) => void,
   handleSwitch: (e: boolean) => void,
+  action: string
 }
 
 
-const ItemContent = (props:TodoProps) => {
+const ItemContent = (props: TodoProps) => {
+
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () =>{
+    const scrollHeight = viewportRef.current ? viewportRef.current.scrollHeight : 0
+    const scrollClient = viewportRef.current ? viewportRef.current.clientHeight : 0
+    const ScrollTop = scrollHeight - scrollClient
+    return ScrollTop;
+  }
+  
+  useEffect(() => {
+    if (props.action === "add") {    
+     if(viewportRef.current)
+     viewportRef.current.scrollTop = handleScroll()   
+    }
+  }, [handleScroll])
+
   return <><ScrollArea.Root>
-    <ScrollArea.Viewport className="h-72 bg-white" >
+    <ScrollArea.Viewport ref={viewportRef} className="h-72 bg-white p-1" >
       <CardContent>
         {props.todoItems.map((item, idx) => {
           const lineClass = item.finish ? 'line-through' : '';
@@ -41,7 +61,7 @@ const ItemContent = (props:TodoProps) => {
     <ScrollArea.Corner />
   </ScrollArea.Root>
     <Separator className="bg-slate-600 mt-2" />
-    <MoveItemEnd handleSwitch={props.handleSwitch}/>
+    <MoveItemEnd handleSwitch={props.handleSwitch} />
   </>
 }
 
