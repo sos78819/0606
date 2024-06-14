@@ -1,2 +1,2 @@
-export { TodoList } from "./todoList.tsx";
+export { TodoList } from "./todoList";
 
