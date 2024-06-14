@@ -70,7 +70,7 @@ const TodoList = () => {
           <CardTitle>Todo List</CardTitle>
           <CardDescription>Add thing todo</CardDescription>
         </CardHeader>
-        <Separator className="bg-slate-600" />
+        <Separator />
         <TodoProgress todoItems={todoItems} />
         <ItemContent action={action} handleSwitch={handleSwitch} todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
         <AddItemForm addItem={handleAddItem} />
