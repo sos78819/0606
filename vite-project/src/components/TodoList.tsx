@@ -21,10 +21,10 @@ const TodoList = () => {
       }
     ])
 
-  const TodoHistoryRef = useRef<singleItem[][]>([]);
+  const todoHistoryRef = useRef<singleItem[][]>([]);
 
   useEffect(() => {
-    TodoHistoryRef.current.push(todoItems);
+    todoHistoryRef.current.push(todoItems);
   }, [todoItems]);
   
   const [action, setAction] = useState("")
@@ -57,9 +57,9 @@ const TodoList = () => {
       setAction("switch")
     } else {
       //如果把完成項目置底後，有進行switch以外的操作，返回後就不做處理
-      const backIdx = (TodoHistoryRef.current.length) - 2
+      const backIdx = (todoHistoryRef.current.length) - 2
       if (action === "switch") {
-        setTodoItems(TodoHistoryRef.current[backIdx])
+        setTodoItems(todoHistoryRef.current[backIdx])
       }
     }
   }

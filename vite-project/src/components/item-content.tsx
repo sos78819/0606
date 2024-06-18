@@ -26,8 +26,8 @@ const ItemContent = (props: TodoProps) => {
   const handleScroll = () =>{
     const scrollHeight = viewportRef.current ? viewportRef.current.scrollHeight : 0
     const scrollClient = viewportRef.current ? viewportRef.current.clientHeight : 0
-    const ScrollTop = scrollHeight - scrollClient
-    return ScrollTop;
+    const scrollTop = scrollHeight - scrollClient
+    return scrollTop;
   }
   
   useEffect(() => {

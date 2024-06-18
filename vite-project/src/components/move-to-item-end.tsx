@@ -2,9 +2,6 @@ import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
 
-// interface MoveItemEndProps { 
-//   switchHandler: (e: boolean) => void;
-// }
 const MoveItemEnd = ({handleSwitch}:{handleSwitch: (e: boolean) => void;})  => {
   
   return (
