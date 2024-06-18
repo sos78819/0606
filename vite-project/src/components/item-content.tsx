@@ -38,7 +38,7 @@ const ItemContent = (props: TodoProps) => {
   }, [handleScroll])
 
   return <><ScrollArea.Root type='auto'>
-    <ScrollArea.Viewport  ref={viewportRef} className="h-72 bg-indigo-100 p-1" >
+    <ScrollArea.Viewport  ref={viewportRef} className="max-h-72 bg-indigo-100 p-1" >
       <CardContent>
         {props.todoItems.map((item, idx) => {
           const lineClass = item.finish ? 'line-through' : '';

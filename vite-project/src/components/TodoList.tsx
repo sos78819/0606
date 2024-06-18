@@ -20,15 +20,16 @@ const TodoList = () => {
         finish: true
       }
     ])
-  const TodoHistoryRef = useRef<any[]>([]);
 
+  const TodoHistoryRef = useRef<singleItem[][]>([]);
 
   useEffect(() => {
     TodoHistoryRef.current.push(todoItems);
   }, [todoItems]);
+  
   const [action, setAction] = useState("")
   function handleAddItem(values: singleItem[]) {
-    setTodoItems((prevItem) => prevItem.concat(values));
+    setTodoItems((prevState) => [...prevState,...values]);
     setAction("add")
   };
 
@@ -65,7 +66,7 @@ const TodoList = () => {
   
   return (
     <div className="flex justify-center items-center w-full h-svh">
-      <Card className='w-4/12  bg-gradient-to-b from-indigo-100 to-indigo-200   p-3  md:w-10/12 sm:w-12/12'>
+      <Card className='w-4/12  bg-gradient-to-b from-indigo-100 to-indigo-200  p-3  md:w-10/12 sm:w-12/12'>
         <CardHeader >
           <CardTitle>Todo List</CardTitle>
           <CardDescription>Add thing todo</CardDescription>
