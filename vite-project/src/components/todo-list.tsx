@@ -2,9 +2,11 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Separator } from "@/components/ui/separator";
 import { singleItem } from "@/type";
 import { useEffect, useRef, useState } from "react";
-import { AddItemForm } from "./add-item-form";
-import { ItemContent } from "./item-content";
+import { AddItemForm } from "./todo-add-item-form";
+import { ItemContent } from "./todo-item-content";
 import { TodoProgress } from "./todo-progress";
+import { MoveItemToEnd } from "./todo-move-to-item-end";
+
 
 const TodoList = () => {
   const [todoItems, setTodoItems] = useState(
@@ -73,7 +75,9 @@ const TodoList = () => {
         </CardHeader>
         <Separator />
         <TodoProgress todoItems={todoItems} />
-        <ItemContent action={action} handleSwitch={handleSwitch} todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
+        <ItemContent action={action}  todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
+        <Separator />
+        <MoveItemToEnd handleSwitch={handleSwitch}/>
         <AddItemForm addItem={handleAddItem} />
       </Card>
     </div>
