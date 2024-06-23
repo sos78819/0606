@@ -12,12 +12,12 @@ const TodoList = () => {
   const [todoItems, setTodoItems] = useState(
     [
       {
-
+        id:Math.random().toString(36),
         title: "default item 1",
         finish: false
       },
       {
-
+        id:Math.random().toString(36),
         title: "default item 2",
         finish: true
       }
@@ -33,17 +33,17 @@ const TodoList = () => {
   function handleAddItem(values: singleItem[]) {
     setTodoItems((prevState) => [...prevState,...values]);
     setAction("add")
-  };
+  }
 
-  function handleCheck(e: boolean, idx: number) {
-    setTodoItems(prevState => prevState.map((todo, index) =>
-      index === idx ? { ...todo, finish: e } : todo
+  function handleCheck(e: boolean, id: string) {
+    setTodoItems(prevState => prevState.map((todo) =>
+      todo.id === id ? { ...todo, finish: e } : todo
     ));
     setAction("")
   }
 
-  function removeItem(idx: number) {
-    setTodoItems(prevState => prevState.filter((_, index) => index !== idx));
+  function removeItem(id: string) {
+    setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));
     setAction("")
   }
 

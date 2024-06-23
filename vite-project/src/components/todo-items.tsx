@@ -11,20 +11,21 @@ const TodoItems = (
     }
     : {
     todoItems: singleItem[],
-    removeItem: (idx: number) => void,
-    handleCheck: (e: boolean, idx: number) => void,
+    removeItem: (id: string) => void,
+    handleCheck: (e: boolean, id: string) => void,
     }) => {
     return <div>
-        {todoItems.map((item, idx) => {
+        {todoItems.map((item) => {
             const lineClass = item.finish ? 'line-through' : '';
+            console.log(item.id)
             return <Label
                 className={`text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${lineClass}`}
-                key={`terms+${idx}`}
-                htmlFor={`terms+${idx}`}
-            ><div key={idx} className="flex items-center rounded bg-slate-50 border-l-6 border-l-indigo-500 mt-2 p-1 relative">
-                    <Checkbox onCheckedChange={(e: boolean) => handleCheck(e, idx)} checked={item.finish} className="mr-2" id={`terms+${idx}`} />
+                key={item.id}
+                htmlFor={item.id}
+            ><div className="flex items-center rounded bg-slate-50 border-l-6 border-l-indigo-500 mt-2 p-1 relative">
+                    <Checkbox onCheckedChange={(e: boolean) => handleCheck(e, item.id)} checked={item.finish} className="mr-2" id={`terms+${item.id}`} />
                     {item.title}
-                    <Button onClick={() => removeItem(idx)} className='bg-transparent w-fit rounded-full text-slate-400 absolute right-0'><CloseIcon /></Button>
+                    <Button onClick={() => removeItem(item.id)} className='bg-transparent w-fit rounded-full text-slate-400 absolute right-0'><CloseIcon /></Button>
                 </div>
             </Label>
         })

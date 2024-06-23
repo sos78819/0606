@@ -7,8 +7,8 @@ import { TodoItems } from './todo-items';
 
 export interface TodoProps {
   todoItems: singleItem[],
-  handleCheck: (e: boolean, idx: number) => void,
-  removeItem: (idx: number) => void,
+  handleCheck: (e: boolean, id: string) => void,
+  removeItem: (id: string) => void,
  
   action: string
 }

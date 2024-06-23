@@ -25,6 +25,7 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      id:"",     
       title: "",
       finish: false
     }
@@ -32,7 +33,8 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
   )
 
   const onSubmit = (values: singleItem) => {
-    addItem([values])
+   const addValue={...values,id:Math.random().toString(36)}
+    addItem([addValue])
   }
 
 
