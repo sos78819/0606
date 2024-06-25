@@ -4,68 +4,71 @@ import { singleItem } from "@/type";
 import { useEffect, useRef, useState } from "react";
 import { AddItemForm } from "./todo-add-item-form";
 import { ItemContent } from "./todo-item-content";
-import { TodoProgress } from "./todo-progress";
 import { MoveItemToEnd } from "./todo-move-to-item-end";
+import { TodoProgress } from "./todo-progress";
 
 
 const TodoList = () => {
   const [todoItems, setTodoItems] = useState(
     [
       {
-        id:Math.random().toString(36),
+        id: Math.random().toString(36),
         title: "default item 1",
         finish: false
       },
       {
-        id:Math.random().toString(36),
+        id: Math.random().toString(36),
         title: "default item 2",
         finish: true
       }
     ])
-
+  const [itemEnd, setItemEnd] = useState(false);
   const todoHistoryRef = useRef<singleItem[][]>([]);
+  const lastTodoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     todoHistoryRef.current.push(todoItems);
   }, [todoItems]);
-  
-  const [action, setAction] = useState("")
+
   function handleAddItem(values: singleItem[]) {
-    setTodoItems((prevState) => [...prevState,...values]);
-    setAction("add")
+    setTodoItems((prevState) => [...values, ...prevState]);
+    if (lastTodoRef.current)
+      lastTodoRef.current.scrollIntoView({ behavior: 'smooth', block: "center" });
   }
 
-  function handleCheck(e: boolean, id: string) {
-    setTodoItems(prevState => prevState.map((todo) =>
+  function handleCheck(e: boolean, id: string) {    
+    const newTodoItems = todoItems.map((todo) =>
       todo.id === id ? { ...todo, finish: e } : todo
-    ));
-    setAction("")
-  }
-
-  function removeItem(id: string) {
-    setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));
-    setAction("")
-  }
-
-  function handleSwitch(e: boolean) {
-    const todoItems_clone = [...todoItems]
-    if (e) {
-      const todoItemsEnd = todoItems_clone.sort((a, b) => {
+    );
+    if (itemEnd) {
+      newTodoItems.sort((a, b) => {
         if (a.finish === b.finish) return 0;
         if (a.finish) return 1;
         return -1;
       })
-      setTodoItems(todoItemsEnd)
-      setAction("switch")
+    }
+    setTodoItems(newTodoItems)
+  }
+
+  function removeItem(id: string) {
+    setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));
+
+  }
+
+  function handleSwitch(e: boolean) {
+    if (e) {
+      setItemEnd(true)
+      setTodoItems((prevState) => prevState.sort((a, b) => {
+        if (a.finish === b.finish) return 0;
+        if (a.finish) return 1;
+        return -1;
+      }))
     } else {
-      //如果把完成項目置底後，有進行switch以外的操作，返回後就不做處理
-      const backIdx = (todoHistoryRef.current.length) - 2
-      if (action === "switch") {
-        setTodoItems(todoHistoryRef.current[backIdx])
-      }
+      setItemEnd(false)
     }
   }
-  
+
+  console.log('todoItems', todoItems)
   return (
     <div className="flex justify-center items-center w-full h-svh">
       <Card className='w-4/12  bg-gradient-to-b from-indigo-100 to-indigo-200  p-3  md:w-10/12 sm:w-12/12'>
@@ -75,9 +78,9 @@ const TodoList = () => {
         </CardHeader>
         <Separator />
         <TodoProgress todoItems={todoItems} />
-        <ItemContent action={action}  todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
+        <ItemContent forwardedRef={lastTodoRef} todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
         <Separator />
-        <MoveItemToEnd handleSwitch={handleSwitch}/>
+        <MoveItemToEnd handleSwitch={handleSwitch} />
         <AddItemForm addItem={handleAddItem} />
       </Card>
     </div>

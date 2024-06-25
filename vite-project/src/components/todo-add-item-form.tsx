@@ -33,7 +33,7 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
   )
 
   const onSubmit = (values: singleItem) => {
-   const addValue={...values,id:Math.random().toString(36)}
+   const addValue={...values,id:Math.random().toString(36),finish:false}
     addItem([addValue])
   }
 
