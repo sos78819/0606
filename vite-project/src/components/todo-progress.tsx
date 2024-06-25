@@ -8,8 +8,8 @@ const TodoProgress = ({todoItems}:{todoItems:singleItem[]}) => {
   const percentage = itemTotal === 0 ? 0 : Math.floor((finishTotal.length / itemTotal) * 100)
   
   return <div className="flex justify-center items-center py-4">
-  <div className="flex-none text-right mr-1"><p>{percentage}%</p></div>
-  <Progress value={percentage} className='w-[85%] bg-indigo-200' />
+  <div className="flex-none text-center w-[10%]"><p>{percentage}%</p></div>
+  <Progress value={percentage} className='w-[90%] bg-indigo-200' />
   </div>
 }
 export { TodoProgress };

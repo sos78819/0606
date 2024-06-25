@@ -24,7 +24,6 @@ const TodoItems: ForwardRefRenderFunction<HTMLDivElement, TodoItemProps> = (
             return <div ref={forwardedRef} key={item.id}>
             <Label
                 className={`text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${lineClass}`}
-
                 htmlFor={item.id}
             ><div className="flex items-center rounded bg-slate-50 border-l-6 border-l-indigo-500 mt-2 p-1 relative">
                     <Checkbox onCheckedChange={(e: boolean) => handleCheck(e, item.id)} checked={item.finish} className="mr-2" id={`terms+${item.id}`} />
