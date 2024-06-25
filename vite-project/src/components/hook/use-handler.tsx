@@ -5,12 +5,12 @@ const useHandler = () => {
   const [todoItems, setTodoItems] = useState(
     [
       {
-        id: Math.random().toString(36),
+        id: Math.random().toString(36).substring(2, 12),
         title: "default item 1",
         finish: false
       },
       {
-        id: Math.random().toString(36),
+        id: Math.random().toString(36).substring(2, 12),
         title: "default item 2",
         finish: true
       }
@@ -18,7 +18,7 @@ const useHandler = () => {
 
   const [itemEnd, setItemEnd] = useState(false);
   const lastTodoRef = useRef<HTMLDivElement>(null);
-
+  
   function handleAddItem(values: singleItem[]) {
     setTodoItems((prevState) => [...values, ...prevState]);
     if (lastTodoRef.current)
@@ -26,6 +26,7 @@ const useHandler = () => {
   }
 
   function handleCheck(e: boolean, id: string) {
+
     const newTodoItems = todoItems.map((todo) =>
       todo.id === id ? { ...todo, finish: e } : todo
     );
@@ -56,7 +57,7 @@ const useHandler = () => {
       setItemEnd(false)
     }
   }
-  return { handleAddItem, handleCheck, removeItem, handleSwitch, lastTodoRef ,todoItems}
+  return { handleAddItem, handleCheck, removeItem, handleSwitch, lastTodoRef, todoItems }
 
 }
 
