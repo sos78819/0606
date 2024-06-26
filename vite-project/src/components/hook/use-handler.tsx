@@ -1,7 +1,9 @@
 import { singleItem } from "@/type";
 import { useRef, useState } from "react";
+import { useHistoryTodo } from "./use-history-todo";
 
 const useHandler = () => {
+
   const [todoItems, setTodoItems] = useState(
     [
       {
@@ -15,14 +17,15 @@ const useHandler = () => {
         finish: true
       }
     ])
-
+  const { todoHistoryRef } = useHistoryTodo(todoItems)
   const [itemEnd, setItemEnd] = useState(false);
   const lastTodoRef = useRef<HTMLDivElement>(null);
-  
+  const stepRef = useRef<number>(todoHistoryRef.current.length)
   function handleAddItem(values: singleItem[]) {
     setTodoItems((prevState) => [...values, ...prevState]);
     if (lastTodoRef.current)
       lastTodoRef.current.scrollIntoView({ behavior: 'smooth', block: "center" });
+    stepRef.current = todoHistoryRef.current.length
   }
 
   function handleCheck(e: boolean, id: string) {
@@ -38,11 +41,12 @@ const useHandler = () => {
       })
     }
     setTodoItems(newTodoItems)
-
+    stepRef.current = todoHistoryRef.current.length
   }
 
   function removeItem(id: string) {
     setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));
+    stepRef.current = todoHistoryRef.current.length
   }
 
   function handleSwitch(e: boolean) {
@@ -53,11 +57,21 @@ const useHandler = () => {
         if (a.finish) return 1;
         return -1;
       }))
+      stepRef.current = todoHistoryRef.current.length
     } else {
       setItemEnd(false)
     }
   }
-  return { handleAddItem, handleCheck, removeItem, handleSwitch, lastTodoRef, todoItems }
+
+  function backPrevious() {
+    console.log(todoHistoryRef.current)
+    console.log(todoHistoryRef.current.length)
+    stepRef.current = stepRef.current > 0 ? stepRef.current - 1 :0
+    console.log(stepRef.current)
+    setTodoItems(todoHistoryRef.current[stepRef.current])
+  }
+
+  return { handleAddItem, handleCheck, removeItem, handleSwitch, backPrevious, lastTodoRef, todoItems }
 
 }
 
