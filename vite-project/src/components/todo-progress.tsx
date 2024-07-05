@@ -1,16 +1,14 @@
 
 import { Progress } from "@/components/ui/progress";
-import { singleItem } from "@/type";
-const TodoProgress = ({todoItems}:{todoItems:singleItem[]}) => {
+import { memo } from "react";
 
-  const itemTotal = todoItems.length
-  const finishTotal = todoItems.filter((item) => item.finish === true);
-  const percentage = itemTotal === 0 ? 0 : Math.floor((finishTotal.length / itemTotal) * 100)
-  
+const TodoProgress = memo(function TodoProgress({percentage}:{percentage:number})  {  
   return <div className="flex justify-center items-center py-4">
   <div className="flex-none text-center w-[10%]"><p>{percentage}%</p></div>
   <Progress value={percentage} className='w-[90%] bg-indigo-200' />
   </div>
-}
+})
 export { TodoProgress };
+
+
 

@@ -1,26 +1,32 @@
 import { singleItem } from "@/type";
-import { useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { useHistoryTodo } from "./use-history-todo";
+import { useLocalStorage } from "./use-localstorage";
+
 
 const useHandler = () => {
-
-  const [todoItems, setTodoItems] = useState(
-    [
-      {
-        id: Math.random().toString(36).substring(2, 12),
-        title: "default item 1",
-        finish: false
-      },
-      {
-        id: Math.random().toString(36).substring(2, 12),
-        title: "default item 2",
-        finish: true
-      }
-    ])
+  const { readLocalStorage, saveLocalStorage } = useLocalStorage();
+  const initialItems = readLocalStorage("ItemList")
+  const [todoItems, setTodoItems] = useState<singleItem[]>(initialItems)
   const { todoHistoryRef } = useHistoryTodo(todoItems)
   const [itemEnd, setItemEnd] = useState(false);
   const lastTodoRef = useRef<HTMLDivElement>(null);
   const stepRef = useRef<number>(todoHistoryRef.current.length)
+
+  const subscribe = (listener:() => void) => { 
+    window.addEventListener("storage", listener);
+    saveLocalStorage("ItemList",todoItems)
+    return () => {
+      window.removeEventListener("storage", listener);
+    };
+  }
+  
+  const getSnapShot = () => {
+    return localStorage.getItem("example");
+  }
+  useSyncExternalStore(subscribe, getSnapShot);
+  
+
   function handleAddItem(values: singleItem[]) {
     setTodoItems((prevState) => [...values, ...prevState]);
     if (lastTodoRef.current)
@@ -66,7 +72,7 @@ const useHandler = () => {
   function backPrevious() {
     console.log(todoHistoryRef.current)
     console.log(todoHistoryRef.current.length)
-    stepRef.current = stepRef.current > 0 ? stepRef.current - 1 :0
+    stepRef.current = stepRef.current > 0 ? stepRef.current - 1 : 0
     console.log(stepRef.current)
     setTodoItems(todoHistoryRef.current[stepRef.current])
   }
@@ -76,3 +82,4 @@ const useHandler = () => {
 }
 
 export { useHandler };
+
