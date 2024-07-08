@@ -13,8 +13,8 @@ export interface TodoProps {
 
 const ItemContent = (props: TodoProps) => {
   return <><ScrollArea.Root type='auto'>
-    <ScrollArea.Viewport className="max-h-56 bg-indigo-100" >
-      <CardContent>
+    <ScrollArea.Viewport className="max-h-56" >
+      <CardContent className='pr-4'>
       <TodoItems forwardedRef={props.forwardedRef} todoItems={props.todoItems} removeItem={props.removeItem} handleCheck={props.handleCheck}/>
       </CardContent>
     </ScrollArea.Viewport >
