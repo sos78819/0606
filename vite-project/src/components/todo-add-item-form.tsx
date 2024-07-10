@@ -42,7 +42,7 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
     <Form  {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="flex w-full p-2 ">
-          <div className="mr-1 w-[80%]">
+          <div className="mr-1 w-[100%]">
             <FormField
               control={form.control}
               name="title"
@@ -55,7 +55,8 @@ const AddItemForm = ({ addItem }: { addItem: (newItem: singleItem[]) => void }) 
                       <Button className="bg-indigo-500" type="submit"><PlusIcon/></Button>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="h-[20px]"> <FormMessage/></div>
+                 
                 </FormItem>
               )}
             />

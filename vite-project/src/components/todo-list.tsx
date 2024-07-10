@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
+import { useEffect } from "react";
 import { useHandler } from "../hook/use-handler";
-
 import { AddItemForm } from "./todo-add-item-form";
 import { ItemContent } from "./todo-item-content";
 import { MoveItemToEnd } from "./todo-move-to-item-end";
@@ -16,6 +16,12 @@ const TodoList = () => {
   const finishTotal = todoItems.filter((item) => item.finish === true);
   const percentage = itemTotal === 0 ? 0 : Math.floor((finishTotal.length / itemTotal) * 100)
 
+  useEffect(() => {    
+    if(lastTodoRef.current)
+    lastTodoRef.current.scrollIntoView({ behavior: 'smooth', block: "start", inline: "nearest" });
+
+  },[lastTodoRef.current] );
+  
   return (
     <>
       <Separator />

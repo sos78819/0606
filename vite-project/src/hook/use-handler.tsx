@@ -1,6 +1,5 @@
 import { singleItem } from "@/type";
 import { useRef, useState, useSyncExternalStore } from "react";
-import { useHistoryTodo } from "./use-history-todo";
 import { useLocalStorage } from "./use-localstorage";
 
 
@@ -8,34 +7,34 @@ const useHandler = () => {
   const { readLocalStorage, saveLocalStorage } = useLocalStorage();
   const initialItems = readLocalStorage("ItemList")
   const [todoItems, setTodoItems] = useState<singleItem[]>(initialItems)
-  const { todoHistoryRef } = useHistoryTodo(todoItems)
+ 
   const [itemEnd, setItemEnd] = useState(false);
   const lastTodoRef = useRef<HTMLDivElement>(null);
-  const stepRef = useRef<number>(todoHistoryRef.current.length)
-
-  const subscribe = (listener:() => void) => { 
+  // const stepRef = useRef<number>(todoHistoryRef.current.length)
+  // console.log('lastTodoRef', lastTodoRef)
+ 
+ const subscribe = (listener: () => void) => {
     window.addEventListener("storage", listener);
-    saveLocalStorage("ItemList",todoItems)
+    saveLocalStorage("ItemList", todoItems)
     return () => {
       window.removeEventListener("storage", listener);
     };
   }
-  
   const getSnapShot = () => {
-    return localStorage.getItem("example");
+    return localStorage.getItem("ItemList");
   }
-  useSyncExternalStore(subscribe, getSnapShot);
-  
 
-  function handleAddItem(values: singleItem[]) {
-    setTodoItems((prevState) => [...values, ...prevState]);
-    if (lastTodoRef.current)
-      lastTodoRef.current.scrollIntoView({ behavior: 'smooth', block: "center" });
-    stepRef.current = todoHistoryRef.current.length
+  useSyncExternalStore(subscribe, getSnapShot);
+
+
+  function handleAddItem(values: singleItem[]) {    
+    const un_finishTotal = todoItems.filter((item) => item.finish === false);
+    const finish = todoItems.filter((item) => item.finish === true);
+    const newTodo =itemEnd? [...un_finishTotal,...values,...finish]:[...todoItems,...values]
+    setTodoItems(newTodo);    
   }
 
   function handleCheck(e: boolean, id: string) {
-
     const newTodoItems = todoItems.map((todo) =>
       todo.id === id ? { ...todo, finish: e } : todo
     );
@@ -46,13 +45,11 @@ const useHandler = () => {
         return -1;
       })
     }
-    setTodoItems(newTodoItems)
-    stepRef.current = todoHistoryRef.current.length
+    setTodoItems(newTodoItems)    
   }
 
   function removeItem(id: string) {
-    setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));
-    stepRef.current = todoHistoryRef.current.length
+    setTodoItems(prevState => prevState.filter((todo) => todo.id !== id));   
   }
 
   function handleSwitch(e: boolean) {
@@ -63,21 +60,14 @@ const useHandler = () => {
         if (a.finish) return 1;
         return -1;
       }))
-      stepRef.current = todoHistoryRef.current.length
+    
     } else {
       setItemEnd(false)
     }
   }
 
-  function backPrevious() {
-    console.log(todoHistoryRef.current)
-    console.log(todoHistoryRef.current.length)
-    stepRef.current = stepRef.current > 0 ? stepRef.current - 1 : 0
-    console.log(stepRef.current)
-    setTodoItems(todoHistoryRef.current[stepRef.current])
-  }
 
-  return { handleAddItem, handleCheck, removeItem, handleSwitch, backPrevious, lastTodoRef, todoItems }
+  return { handleAddItem, handleCheck, removeItem, handleSwitch,lastTodoRef, todoItems }
 
 }
 
