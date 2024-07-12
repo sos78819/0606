@@ -9,17 +9,27 @@ interface TodoItemProps {
     todoItems: singleItem[],
     removeItem: (id: string) => void,
     handleCheck: (e: boolean, id: string) => void,
-    forwardedRef: Ref<HTMLDivElement>
+    forwardedRef: Ref<HTMLDivElement>,
+    itemEnd:boolean
 }
 const TodoItems: ForwardRefRenderFunction<HTMLDivElement, TodoItemProps> = (
-    { todoItems,
+    {   todoItems,
         handleCheck,
         removeItem,
-        forwardedRef
+        forwardedRef,
+        itemEnd
     }
 ) => {
+    const todoItems_clone = [...todoItems]  
+    if(itemEnd){
+        todoItems_clone.sort((a, b) => {
+        if (a.finish === b.finish) return 0;
+        if (a.finish) return 1;
+        return -1;
+      })
+    }
     return <div>
-        {todoItems.map((item) => {
+        {todoItems_clone.map((item) => {
             const lineClass = item.finish ? 'line-through' : '';           
             return <div ref={forwardedRef} key={item.id}>
             <Label

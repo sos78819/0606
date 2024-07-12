@@ -1,5 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { useEffect } from "react";
 import { useHandler } from "../hook/use-handler";
 import { AddItemForm } from "./todo-add-item-form";
 import { ItemContent } from "./todo-item-content";
@@ -10,23 +9,17 @@ import { TodoProgress } from "./todo-progress";
 
 const TodoList = () => {
 
-  const { handleAddItem, handleCheck, removeItem, handleSwitch, lastTodoRef, todoItems } = useHandler();
+  const { handleAddItem, handleCheck, removeItem, handleSwitch,itemEnd, lastTodoRef, todoItems } = useHandler();
 
   const itemTotal = todoItems.length
   const finishTotal = todoItems.filter((item) => item.finish === true);
   const percentage = itemTotal === 0 ? 0 : Math.floor((finishTotal.length / itemTotal) * 100)
-
-  useEffect(() => {    
-    if(lastTodoRef.current)
-    lastTodoRef.current.scrollIntoView({ behavior: 'smooth', block: "start", inline: "nearest" });
-
-  },[lastTodoRef.current] );
-  
+    
   return (
     <>
       <Separator />
       <TodoProgress percentage={percentage} />
-      <ItemContent forwardedRef={lastTodoRef} todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
+      <ItemContent itemEnd={itemEnd}  forwardedRef={lastTodoRef} todoItems={todoItems} removeItem={removeItem} handleCheck={handleCheck} />
       <Separator className="mt-4" />
       <MoveItemToEnd handleSwitch={handleSwitch} />
       <AddItemForm addItem={handleAddItem} />

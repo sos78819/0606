@@ -8,14 +8,15 @@ export interface TodoProps {
   todoItems: singleItem[],
   handleCheck: (e: boolean, id: string) => void,
   removeItem: (id: string) => void,  
-  forwardedRef: Ref<HTMLDivElement>
+  forwardedRef: Ref<HTMLDivElement>,
+  itemEnd:boolean, 
 }
 
 const ItemContent = (props: TodoProps) => {
   return <><ScrollArea.Root type='auto'>
     <ScrollArea.Viewport className="max-h-56" >
       <CardContent className='pr-4'>
-      <TodoItems forwardedRef={props.forwardedRef} todoItems={props.todoItems} removeItem={props.removeItem} handleCheck={props.handleCheck}/>
+      <TodoItems itemEnd={props.itemEnd}  forwardedRef={props.forwardedRef} todoItems={props.todoItems} removeItem={props.removeItem} handleCheck={props.handleCheck}/>
       </CardContent>
     </ScrollArea.Viewport >
     <ScrollArea.Scrollbar className="h-full w-3.5 border-l border-l-transparent p-[1px]" orientation="vertical">
